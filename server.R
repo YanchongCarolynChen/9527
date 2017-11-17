@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(dplyr)
 library(ggplot2)
 
 # Define server logic required to draw a histogram
@@ -24,6 +25,17 @@ shinyServer(function(input, output) {
     switch(input$country,
            air)
   }, ignoreNULL = FALSE)
+
+  # We select data to plot based on which location type and location was chosen.  
+  # The reactive function filters the data to return only rows from cdc data which correspond to either the state,
+  # region, or country selected.  For some reason, need to put in extra error check for the "states within region" option to prevent ggplot error message 
+  # 过滤条件，里面做了一些判断，如果条件不符合要求的时候，在下面output$plot1的render里面就会返回null（不输出视图）
+  selectedData <- reactive({
+    if(!is.null(input$month)){
+      return(filter(air, Month == input$month))
+      # return(subset(air, Month == input$month))
+    }
+  })
   
   # 
   # # Return the formula text for printing as a caption ----
@@ -34,16 +46,21 @@ shinyServer(function(input, output) {
   # # Generate a plot of the requested variable against mpg ----
   # # and only exclude outliers if requested
    output$tourPlot <- renderPlot({
+     
+    # if(!is.null(input$country)){
+    #   if()
+      
+    # }
     # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
-    if(!is.null(input$month)){
-      air <- subset(air, Month == input$month)
-    }
-    ggplot(air,aes(Year,y=USA,group=Month,fill=Month))+geom_line()+geom_point()
+    
+    # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
+    ggplot(selectedData(),aes(Year,y=USA,group=Month,fill=Month))+geom_line()+geom_point()
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
    })
  
   
   output$view <- renderTable({
-    head(datasetInput(), n = isolate(input$obs))})
+    head(datasetInput(), n = isolate(input$obs))
+  })
   
 })
