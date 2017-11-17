@@ -9,8 +9,8 @@
 library(shiny)
 
 # Define UI for application that draws a histogram
-shinyUI(navbarPage("CDC Data Visualization",
-                   tabPanel("Disease Plots",
+shinyUI(navbarPage("TITLE",
+                   tabPanel("A TAB",
   
           # App title ----
           titlePanel("Singapore Tourism"),

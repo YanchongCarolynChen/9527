@@ -51,10 +51,25 @@ shinyServer(function(input, output) {
     #   if()
       
     # }
+    # Depending on whether the "Cumulative" checkbox is checked, set plot aesthetics to either weekly or cumulative counts
+    switch(input$country,
+          "USA"  =  {aesthetics = aes(x = Year,y = USA,group=Month,fill=Month)},
+          "Indonesia"  =  {aesthetics = aes(x = Year,y = Indonesia,group=Month,fill=Month)},
+          "Malaysia"  =  {aesthetics = aes(x = Year,y = Malaysia,group=Month,fill=Month)},
+          "Philippines"  =  {aesthetics = aes(x = Year,y = Philippines,group=Month,fill=Month)},
+          "Thailand"  =  {aesthetics = aes(x = Year,y = Thailand,group=Month,fill=Month)},
+          "Japan"  =  {aesthetics = aes(x = Year,y = Japan,group=Month,fill=Month)},
+          "China"  =  {aesthetics = aes(x = Year,y = China,group=Month,fill=Month)},
+          "Korea"  =  {aesthetics = aes(x = Year,y = Korea,group=Month,fill=Month)},
+          "India"  =  {aesthetics = aes(x = Year,y = India,group=Month,fill=Month)},
+          "UK"  =  {aesthetics = aes(x = Year,y = UK,group=Month,fill=Month)},
+          "Australia"  =  {aesthetics = aes(x = Australia,y = USA,group=Month,fill=Month)},
+    )
     # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
     
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
-    ggplot(selectedData(),aes(Year,y=USA,group=Month,fill=Month))+geom_line()+geom_point()
+    # aes(Year,y=USA,group=Month,fill=Month)
+    ggplot(selectedData(),aesthetics)+geom_line()+geom_point()
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
    })
  
