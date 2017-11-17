@@ -28,7 +28,7 @@ shinyUI(fluidPage(
       radioButtons("month", label = h3("Month"),
         choices = list("JAN" = "JAN", "FEB" = "FEB", "MAR" = "MAR", "APR" = "APR", "MAY" = "MAY", "JUN" = "JUN", 
                   "JUL" = "JUL", "AUG" = "AUG", "SEP" = "SEP", "OCT" = "OCT", "NOV" = "NOV", "DEC" = "DEC"), 
-        selected = 1),
+        selected = "JAN"),
       
       # Input: Checkbox for whether outliers should be included ----
       numericInput("obs", "Number of observations to view:", 10),actionButton("update", "Update View")
