@@ -35,8 +35,10 @@ shinyServer(function(input, output) {
   # # and only exclude outliers if requested
    output$tourPlot <- renderPlot({
     # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
-    Jan <- subset(air, Month == 'Jan')
-    ggplot(Jan,aes(Year,USA,group=Month,fill=Month))+geom_line()
+    if(!is.null(input$month)){
+      air <- subset(air, Month == input$month)
+    }
+    ggplot(air,aes(Year,y=USA,group=Month,fill=Month))+geom_line()+geom_point()
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
    })
  

@@ -1,3 +1,4 @@
 air<-read.csv("./arrival_air.csv",header = TRUE,sep=",")
 
-data07<-read.csv("./data/all-07.csv",header = TRUE,sep=",")
+# 因为命名不统一，现在统一改成大写字母
+air$Month <- toupper(air$Month)
