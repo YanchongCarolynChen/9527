@@ -52,6 +52,20 @@ total <- rbind(data_2007,data_2008,data_2009,data_2010,data_2011,data_2012,data_
 total$Country = str_trim(total$Country)
 total$Country[total$Country == 'P R China'] = 'China'
 
+total$JAN = as.numeric(gsub(",","", total$JAN))
+total$FEB = as.numeric(gsub(",","", total$FEB))
+total$MAR = as.numeric(gsub(",","", total$MAR))
+total$APR = as.numeric(gsub(",","", total$APR))
+total$MAY = as.numeric(gsub(",","", total$MAY))
+total$JUN = as.numeric(gsub(",","", total$JUN))
+total$JUL = as.numeric(gsub(",","", total$JUL))
+total$SEP = as.numeric(gsub(",","", total$SEP))
+total$OCT = as.numeric(gsub(",","", total$OCT))
+total$NOV = as.numeric(gsub(",","", total$NOV))
+total$DEC = as.numeric(gsub(",","", total$DEC))
+total$Total = as.numeric(gsub(",","", total$Total))
+total$Pct_Change = as.numeric(gsub(",","", total$Pct_Change))
+
 # 因为命名不统一，现在统一改成大写字母
 air$Month <- toupper(air$Month)
 air$Month <- as.factor(air$Mont)

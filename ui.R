@@ -24,23 +24,9 @@ shinyUI(navbarPage("TITLE",
                 choices = list("2007" = "2007", "2008" = "2008", "2009" = "2009", "2010" = "2010", 
                           "2011" = "2011", "2012" = "2012", "2013" = "2013", "2014" = "2014", 
                           "2015" = "2015", "2016" = "2016"), 
-                selected = "2016"),
+                selected = "2016")
 
-              # 选择年份
-              radioButtons("order1", label = h3("Order"),
-                choices = list("asc" = "asc", "desc" = "desc"), 
-                selected = "")
-              
             )
-            # # Main panel for displaying outputs ----
-            # mainPanel(
-            #   # Output: Formatted text for caption ----
-            #   h3(textOutput("caption")),
-            #   # Output: Plot of the requested variable against mpg ----
-            #   plotOutput("tourPlot"),
-            #   h4("Observations"),
-            #   tableOutput("view")
-            # )
           ),
           column(8, 
             # Output: Formatted text for caption ----

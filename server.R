@@ -72,6 +72,7 @@ shinyServer(function(input, output) {
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
     # aes(Year,y=USA,group=Month,fill=Month)
     ggplot(selectedData(),aesthetics1)+geom_bar(stat='identity',position='dodge')+
+        scale_x_discrete(limits=c("JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"))+
         ggtitle(paste("Tourists ~", input$country))+ylab("Number Reported")+theme_wsj()+scale_fill_wsj()
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
   })
@@ -98,7 +99,7 @@ shinyServer(function(input, output) {
   output$tourPlotTotalB <- renderPlot({
     # 根据选择的月份显示该月份列的数据
     switch(input$month2,
-          "Total"  =  {aesthetics2 = aes(x = YEAR,y = Total,group=Country,fill=Country)},
+          "Total"  =  {aesthetics2 = aes(x = YEAR,y = Total,group=Country,fill=Country,colour=Country)},
           "JAN"  =  {aesthetics2 = aes(x = YEAR,y = JAN,group=Country,fill=Country,colour=Country)},
           "FEB"  =  {aesthetics2 = aes(x = YEAR,y = FEB,group=Country,fill=Country,colour=Country)},
           "MAR"  =  {aesthetics2 = aes(x = YEAR,y = MAR,group=Country,fill=Country,colour=Country)},
@@ -162,7 +163,7 @@ shinyServer(function(input, output) {
   # 汇总图
   output$tourPlotTotalC <- renderPlot({
 
-    p <- ggplot(selectedDataC(),aes(x = YEAR,y = Pct_Change,group=Country,fill=Country))+geom_line()+geom_point()+
+    p <- ggplot(selectedDataC(),aes(x = YEAR,y = Pct_Change,group=Country,fill=Country,colour=Country))+geom_line()+geom_point()+
         ylab("Pct_Change Reported")+ggtitle(paste("Tourists ~ Pct_Change", "Reports"))
     
     return(p)
