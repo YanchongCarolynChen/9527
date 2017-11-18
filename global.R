@@ -1,3 +1,10 @@
+library(shiny)
+library(stringr)
+library(dplyr)
+library(scales)
+library(grid)
+library(ggplot2)
+
 air<-read.csv("./data/arrival_air.csv",header = TRUE,sep=",")
 
 # 读取数据
@@ -36,7 +43,11 @@ names(data_2014) <- COLNAME
 names(data_2015) <- COLNAME
 names(data_2016) <- COLNAME
 
+# 同一命名
 total <- rbind(data_2007,data_2008,data_2009,data_2010,data_2011,data_2012,data_2014,data_2015,data_2016)
+# 去掉空格
+total$Country = str_trim(total$Country)
+total$Country[total$Country == 'P R China'] = 'China'
 
 # 因为命名不统一，现在统一改成大写字母
 air$Month <- toupper(air$Month)

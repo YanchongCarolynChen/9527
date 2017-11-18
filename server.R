@@ -7,9 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-library(dplyr)
-library(ggplot2)
+
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -21,10 +19,7 @@ shinyServer(function(input, output) {
   formulaText <- reactive({
     paste("Tourists ~", input$country)
   })
-  datasetInput <- eventReactive(input$update, {
-    switch(input$country,
-           air)
-  }, ignoreNULL = FALSE)
+
 
   # We select data to plot based on which location type and location was chosen.  
   # The reactive function filters the data to return only rows from cdc data which correspond to either the state,
@@ -45,37 +40,102 @@ shinyServer(function(input, output) {
 
   # # Generate a plot of the requested variable against mpg ----
   # # and only exclude outliers if requested
-   output$tourPlot <- renderPlot({
-     
-    # if(!is.null(input$country)){
-    #   if()
-      
-    # }
+  output$tourPlot <- renderPlot({
     # Depending on whether the "Cumulative" checkbox is checked, set plot aesthetics to either weekly or cumulative counts
     switch(input$country,
-          "USA"  =  {aesthetics = aes(x = Year,y = USA,group=Month,fill=Month)},
-          "Indonesia"  =  {aesthetics = aes(x = Year,y = Indonesia,group=Month,fill=Month)},
-          "Malaysia"  =  {aesthetics = aes(x = Year,y = Malaysia,group=Month,fill=Month)},
-          "Philippines"  =  {aesthetics = aes(x = Year,y = Philippines,group=Month,fill=Month)},
-          "Thailand"  =  {aesthetics = aes(x = Year,y = Thailand,group=Month,fill=Month)},
-          "Japan"  =  {aesthetics = aes(x = Year,y = Japan,group=Month,fill=Month)},
-          "China"  =  {aesthetics = aes(x = Year,y = China,group=Month,fill=Month)},
-          "Korea"  =  {aesthetics = aes(x = Year,y = Korea,group=Month,fill=Month)},
-          "India"  =  {aesthetics = aes(x = Year,y = India,group=Month,fill=Month)},
-          "UK"  =  {aesthetics = aes(x = Year,y = UK,group=Month,fill=Month)},
-          "Australia"  =  {aesthetics = aes(x = Australia,y = USA,group=Month,fill=Month)},
+          "USA"  =  {aesthetics1 = aes(x = Year,y = USA,group=Month,fill=Month)},
+          "Indonesia"  =  {aesthetics1 = aes(x = Year,y = Indonesia,group=Month,fill=Month)},
+          "Malaysia"  =  {aesthetics1 = aes(x = Year,y = Malaysia,group=Month,fill=Month)},
+          "Philippines"  =  {aesthetics1 = aes(x = Year,y = Philippines,group=Month,fill=Month)},
+          "Thailand"  =  {aesthetics1 = aes(x = Year,y = Thailand,group=Month,fill=Month)},
+          "Japan"  =  {aesthetics1 = aes(x = Year,y = Japan,group=Month,fill=Month)},
+          "China"  =  {aesthetics1 = aes(x = Year,y = China,group=Month,fill=Month)},
+          "Korea"  =  {aesthetics1 = aes(x = Year,y = Korea,group=Month,fill=Month)},
+          "India"  =  {aesthetics1 = aes(x = Year,y = India,group=Month,fill=Month)},
+          "UK"  =  {aesthetics1 = aes(x = Year,y = UK,group=Month,fill=Month)},
+          "Australia"  =  {aesthetics1 = aes(x = Australia,y = USA,group=Month,fill=Month)},
     )
     # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
     
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
     # aes(Year,y=USA,group=Month,fill=Month)
-    ggplot(selectedData(),aesthetics)+geom_line()+geom_point()
+    ggplot(selectedData(),aesthetics1)+geom_line()+geom_point()+ylab("Number Reported")
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
-   })
+  })
+
+  output$view <- renderTable({
+    total
+    # head(datasetInput(), n = isolate(input$obs))
+  })
+
+  # START B
+  selectedDataI <- reactive({
+    # 跟据多选框的国家，筛选除特定国家的数据
+    return(filter(total, Country %in% input$country2))
+  })
  
   
-  output$view <- renderTable({
-    head(datasetInput(), n = isolate(input$obs))
+  output$viewB <- renderTable({
+    # 显示根据条件筛选后的数据
+    selectedDataI()
+    # head(datasetInput(), n = isolate(input$obs))
   })
+
+  # 汇总图
+  output$tourPlotTotalB <- renderPlot({
+    # 根据选择的月份显示该月份列的数据
+    switch(input$month2,
+          "JAN"  =  {aesthetics2 = aes(x = YEAR,y = JAN,group=Country,fill=Country,colour=Country)},
+          "FEB"  =  {aesthetics2 = aes(x = YEAR,y = FEB,group=Country,fill=Country,colour=Country)},
+          "MAR"  =  {aesthetics2 = aes(x = YEAR,y = MAR,group=Country,fill=Country,colour=Country)},
+          "APR"  =  {aesthetics2 = aes(x = YEAR,y = APR,group=Country,fill=Country,colour=Country)},
+          "MAY"  =  {aesthetics2 = aes(x = YEAR,y = MAY,group=Country,fill=Country,colour=Country)},
+          "JUN"  =  {aesthetics2 = aes(x = YEAR,y = JUN,group=Country,fill=Country,colour=Country)},
+          "JUL"  =  {aesthetics2 = aes(x = YEAR,y = JUL,group=Country,fill=Country,colour=Country)},
+          "AUG"  =  {aesthetics2 = aes(x = YEAR,y = AUG,group=Country,fill=Country,colour=Country)},
+          "SEP"  =  {aesthetics2 = aes(x = YEAR,y = SEP,group=Country,fill=Country,colour=Country)},
+          "OCT"  =  {aesthetics2 = aes(x = YEAR,y = OCT,group=Country,fill=Country,colour=Country)},
+          "NOV"  =  {aesthetics2 = aes(x = YEAR,y = NOV,group=Country,fill=Country,colour=Country)},
+          "DEC"  =  {aesthetics2 = aes(x = YEAR,y = DEC,group=Country,fill=Country,colour=Country)},
+    )
+
+    # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
+    # aes(Year,y=USA,group=Month,fill=Month)
+    p <- ggplot(selectedDataI(),aesthetics2)+geom_line()+geom_point()+
+        ylab("Number Reported")+ggtitle(paste("Tourists ~",input$month2, "Reports"))
+    
+    return(p)
+  })
+
+  # 多个图
+  output$tourPlotB <- renderPlot({
+    # Depending on whether the "Cumulative" checkbox is checked, set plot aesthetics to either weekly or cumulative counts
+    switch(input$month2,
+          "JAN"  =  {aesthetics2 = aes(x = YEAR,y = JAN,group=Country,fill=Country)},
+          "FEB"  =  {aesthetics2 = aes(x = YEAR,y = FEB,group=Country,fill=Country)},
+          "MAR"  =  {aesthetics2 = aes(x = YEAR,y = MAR,group=Country,fill=Country)},
+          "APR"  =  {aesthetics2 = aes(x = YEAR,y = APR,group=Country,fill=Country)},
+          "MAY"  =  {aesthetics2 = aes(x = YEAR,y = MAY,group=Country,fill=Country)},
+          "JUN"  =  {aesthetics2 = aes(x = YEAR,y = JUN,group=Country,fill=Country)},
+          "JUL"  =  {aesthetics2 = aes(x = YEAR,y = JUL,group=Country,fill=Country)},
+          "AUG"  =  {aesthetics2 = aes(x = YEAR,y = AUG,group=Country,fill=Country)},
+          "SEP"  =  {aesthetics2 = aes(x = YEAR,y = SEP,group=Country,fill=Country)},
+          "OCT"  =  {aesthetics2 = aes(x = YEAR,y = OCT,group=Country,fill=Country)},
+          "NOV"  =  {aesthetics2 = aes(x = YEAR,y = NOV,group=Country,fill=Country)},
+          "DEC"  =  {aesthetics2 = aes(x = YEAR,y = DEC,group=Country,fill=Country)},
+    )
+    # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
+    
+    # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
+    # aes(Year,y=USA,group=Month,fill=Month)
+    p <- ggplot(selectedDataI(),aesthetics2)+geom_line()+geom_point()+
+        ylab("Number Reported")+ggtitle(paste("Tourists ~",input$month2, "Reports"))
+    
+    return(p + facet_wrap(~ Country, scales='free'))
+    
+    # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
+  })
+
+  # END B 
   
 })
