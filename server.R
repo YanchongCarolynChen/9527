@@ -85,6 +85,7 @@ shinyServer(function(input, output) {
   output$tourPlotTotalB <- renderPlot({
     # 根据选择的月份显示该月份列的数据
     switch(input$month2,
+          "Total"  =  {aesthetics2 = aes(x = YEAR,y = Total,group=Country,fill=Country)},
           "JAN"  =  {aesthetics2 = aes(x = YEAR,y = JAN,group=Country,fill=Country,colour=Country)},
           "FEB"  =  {aesthetics2 = aes(x = YEAR,y = FEB,group=Country,fill=Country,colour=Country)},
           "MAR"  =  {aesthetics2 = aes(x = YEAR,y = MAR,group=Country,fill=Country,colour=Country)},
@@ -111,6 +112,7 @@ shinyServer(function(input, output) {
   output$tourPlotB <- renderPlot({
     # Depending on whether the "Cumulative" checkbox is checked, set plot aesthetics to either weekly or cumulative counts
     switch(input$month2,
+          "Total"  =  {aesthetics2 = aes(x = YEAR,y = Total,group=Country,fill=Country)},
           "JAN"  =  {aesthetics2 = aes(x = YEAR,y = JAN,group=Country,fill=Country)},
           "FEB"  =  {aesthetics2 = aes(x = YEAR,y = FEB,group=Country,fill=Country)},
           "MAR"  =  {aesthetics2 = aes(x = YEAR,y = MAR,group=Country,fill=Country)},

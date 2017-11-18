@@ -62,9 +62,9 @@ shinyUI(navbarPage("TITLE",
                 selected = c('Australia',"China","Hong Kong SAR","India")),
               # 选择月份
               radioButtons("month2", label = h3("Month"),
-                choices = list("JAN" = "JAN", "FEB" = "FEB", "MAR" = "MAR", "APR" = "APR", "MAY" = "MAY", "JUN" = "JUN", 
+                choices = list("Total" = "Total","JAN" = "JAN", "FEB" = "FEB", "MAR" = "MAR", "APR" = "APR", "MAY" = "MAY", "JUN" = "JUN", 
                           "JUL" = "JUL", "AUG" = "AUG", "SEP" = "SEP", "OCT" = "OCT", "NOV" = "NOV", "DEC" = "DEC"), 
-                selected = "JAN")
+                selected = "Total")
             )
           ),
           column(9, 
