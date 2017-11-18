@@ -19,14 +19,17 @@ shinyUI(navbarPage("TITLE",
               selectInput("country","Country:",
                           choices=colnames(air[3:13])),
 
-              # 选择月份
-              radioButtons("month", label = h3("Month"),
-                choices = list("JAN" = "JAN", "FEB" = "FEB", "MAR" = "MAR", "APR" = "APR", "MAY" = "MAY", "JUN" = "JUN", 
-                          "JUL" = "JUL", "AUG" = "AUG", "SEP" = "SEP", "OCT" = "OCT", "NOV" = "NOV", "DEC" = "DEC"), 
-                selected = "JAN"),
-              
-              # Input: Checkbox for whether outliers should be included ----
-              numericInput("obs", "Number of observations to view:", 10),actionButton("update", "Update View")
+              # 选择年份
+              radioButtons("year1", label = h3("Month"),
+                choices = list("2007" = "2007", "2008" = "2008", "2009" = "2009", "2010" = "2010", 
+                          "2011" = "2011", "2012" = "2012", "2013" = "2013", "2014" = "2014", 
+                          "2015" = "2015", "2016" = "2016"), 
+                selected = "2016"),
+
+              # 选择年份
+              radioButtons("order1", label = h3("Order"),
+                choices = list("asc" = "asc", "desc" = "desc"), 
+                selected = "")
               
             )
             # # Main panel for displaying outputs ----

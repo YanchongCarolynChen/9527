@@ -26,10 +26,12 @@ shinyServer(function(input, output) {
   # region, or country selected.  For some reason, need to put in extra error check for the "states within region" option to prevent ggplot error message 
   # 过滤条件，里面做了一些判断，如果条件不符合要求的时候，在下面output$plot1的render里面就会返回null（不输出视图）
   selectedData <- reactive({
-    if(!is.null(input$month)){
-      return(filter(air, Month == input$month))
+    if(!is.null(input$year1)){
+      return(filter(air, Year == input$year1))
       # return(subset(air, Month == input$month))
     }
+
+    return(air)
   })
   
   # 
@@ -43,28 +45,39 @@ shinyServer(function(input, output) {
   output$tourPlot <- renderPlot({
     # Depending on whether the "Cumulative" checkbox is checked, set plot aesthetics to either weekly or cumulative counts
     switch(input$country,
-          "USA"  =  {aesthetics1 = aes(x = Year,y = USA,group=Month,fill=Month)},
-          "Indonesia"  =  {aesthetics1 = aes(x = Year,y = Indonesia,group=Month,fill=Month)},
-          "Malaysia"  =  {aesthetics1 = aes(x = Year,y = Malaysia,group=Month,fill=Month)},
-          "Philippines"  =  {aesthetics1 = aes(x = Year,y = Philippines,group=Month,fill=Month)},
-          "Thailand"  =  {aesthetics1 = aes(x = Year,y = Thailand,group=Month,fill=Month)},
-          "Japan"  =  {aesthetics1 = aes(x = Year,y = Japan,group=Month,fill=Month)},
-          "China"  =  {aesthetics1 = aes(x = Year,y = China,group=Month,fill=Month)},
-          "Korea"  =  {aesthetics1 = aes(x = Year,y = Korea,group=Month,fill=Month)},
-          "India"  =  {aesthetics1 = aes(x = Year,y = India,group=Month,fill=Month)},
-          "UK"  =  {aesthetics1 = aes(x = Year,y = UK,group=Month,fill=Month)},
-          "Australia"  =  {aesthetics1 = aes(x = Australia,y = USA,group=Month,fill=Month)},
+          "USA"  =  {aesthetics1 = aes(x = Month,y = USA)},
+          "Indonesia"  =  {aesthetics1 = aes(x = Month,y = Indonesia)},
+          "Malaysia"  =  {aesthetics1 = aes(x = Month,y = Malaysia)},
+          "Philippines"  =  {aesthetics1 = aes(x = Month,y = Philippines)},
+          "Thailand"  =  {aesthetics1 = aes(x = Month,y = Thailand)},
+          "Japan"  =  {aesthetics1 = aes(x = Month,y = Japan)},
+          "China"  =  {aesthetics1 = aes(x = Month,y = China)},
+          "Korea"  =  {aesthetics1 = aes(x = Month,y = Korea)},
+          "India"  =  {aesthetics1 = aes(x = Month,y = India)},
+          "UK"  =  {aesthetics1 = aes(x = Month,y = UK)},
+          "Australia"  =  {aesthetics1 = aes(x = Month,y = USA)},
     )
     # info <- subset(air, as.Date(Year) > as.Date("2014-01-01"))
-    
+
+    # arrange y[order(y[,3]),]
+    # result <- filter(air, Year == input$year1)
+    # result <- result[order(result[,3]),]
+    # if(!is.null(input$order1)){
+    #   if(input$order1=="asc"){
+    #     result <- arrange(selectedData(),USA) #将survived从小到大排序  
+    #   }else if(input$order1=="desc"){
+    #     result <- arrange(selectedData(),desc(input$country)) #将survived从大到小排序 
+    #   }
+    # }
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
     # aes(Year,y=USA,group=Month,fill=Month)
-    ggplot(selectedData(),aesthetics1)+geom_line()+geom_point()+ylab("Number Reported")
+    ggplot(selectedData(),aesthetics1)+geom_bar(stat='identity',position='dodge')+
+        ggtitle(paste("Tourists ~", input$country))+ylab("Number Reported")+theme_wsj()+scale_fill_wsj()
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
   })
 
   output$view <- renderTable({
-    total
+    selectedData()
     # head(datasetInput(), n = isolate(input$obs))
   })
 

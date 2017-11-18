@@ -4,6 +4,8 @@ library(dplyr)
 library(scales)
 library(grid)
 library(ggplot2)
+# 图标主题
+library(ggthemes)
 
 air<-read.csv("./data/arrival_air.csv",header = TRUE,sep=",")
 
@@ -52,3 +54,4 @@ total$Country[total$Country == 'P R China'] = 'China'
 
 # 因为命名不统一，现在统一改成大写字母
 air$Month <- toupper(air$Month)
+air$Month <- as.factor(air$Mont)
