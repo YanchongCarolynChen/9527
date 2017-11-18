@@ -69,7 +69,7 @@ shinyServer(function(input, output) {
   })
 
   # START B
-  selectedDataI <- reactive({
+  selectedDataB <- reactive({
     # 跟据多选框的国家，筛选除特定国家的数据
     return(filter(total, Country %in% input$country2))
   })
@@ -77,7 +77,7 @@ shinyServer(function(input, output) {
   
   output$viewB <- renderTable({
     # 显示根据条件筛选后的数据
-    selectedDataI()
+    selectedDataB()
     # head(datasetInput(), n = isolate(input$obs))
   })
 
@@ -101,7 +101,7 @@ shinyServer(function(input, output) {
 
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
     # aes(Year,y=USA,group=Month,fill=Month)
-    p <- ggplot(selectedDataI(),aesthetics2)+geom_line()+geom_point()+
+    p <- ggplot(selectedDataB(),aesthetics2)+geom_line()+geom_point()+
         ylab("Number Reported")+ggtitle(paste("Tourists ~",input$month2, "Reports"))
     
     return(p)
@@ -128,14 +128,42 @@ shinyServer(function(input, output) {
     
     # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
     # aes(Year,y=USA,group=Month,fill=Month)
-    p <- ggplot(selectedDataI(),aesthetics2)+geom_line()+geom_point()+
+    p <- ggplot(selectedDataB(),aesthetics2)+geom_line()+geom_point()+
         ylab("Number Reported")+ggtitle(paste("Tourists ~",input$month2, "Reports"))
     
     return(p + facet_wrap(~ Country, scales='free'))
     
     # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
   })
-
   # END B 
+
+  # START C
+  selectedDataC <- reactive({
+    # 跟据多选框的国家，筛选除特定国家的数据
+    # return(total)
+    return(filter(total, Country %in% input$country3, YEAR %in% input$year3))
+  })
+ 
+  # 汇总图
+  output$tourPlotTotalC <- renderPlot({
+
+    p <- ggplot(selectedDataC(),aes(x = YEAR,y = Pct_Change,group=Country,fill=Country))+geom_line()+geom_point()+
+        ylab("Pct_Change Reported")+ggtitle(paste("Tourists ~ Pct_Change", "Reports"))
+    
+    return(p)
+  })
+
+  # 多个图
+  output$tourPlotC <- renderPlot({
+    # USA, Indonesia,Malaysia,Philippines,Thailand,Japan,China,Korea,India,UK,Australia
+    # aes(Year,y=USA,group=Month,fill=Month)
+    p <- ggplot(selectedDataC(),aes(x = YEAR,y = Pct_Change,group=Country,fill=Country))+geom_line()+geom_point()+
+        ylab("Pct_Change Reported")+ggtitle(paste("Tourists ~ Pct_Change", "Reports"))
+    
+    return(p + facet_wrap(~ Country, scales='free'))
+    
+    # ggplot(data=mydata, aes(x=Year, y=input$country, group=1),stat="identity") 
+  })
+  # END C 
   
 })

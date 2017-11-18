@@ -31,7 +31,8 @@ data_2015$YEAR <- '2015'
 data_2016$YEAR <- '2016'
 
 # 重命名列
-COLNAME <- c("Country","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC","Total","Pct_Change","YEAR")
+COLNAME <- c("Country","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG",
+            "SEP","OCT","NOV","DEC","Total","Pct_Change","YEAR")
 names(data_2007) <- COLNAME
 names(data_2008) <- COLNAME
 names(data_2009) <- COLNAME
