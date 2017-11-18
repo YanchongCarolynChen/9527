@@ -52,6 +52,7 @@ total <- rbind(data_2007,data_2008,data_2009,data_2010,data_2011,data_2012,data_
 total$Country = str_trim(total$Country)
 total$Country[total$Country == 'P R China'] = 'China'
 
+# 转换成数字
 total$JAN = as.numeric(gsub(",","", total$JAN))
 total$FEB = as.numeric(gsub(",","", total$FEB))
 total$MAR = as.numeric(gsub(",","", total$MAR))
